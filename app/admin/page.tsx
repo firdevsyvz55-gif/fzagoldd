@@ -228,6 +228,21 @@ function PForm({ initial, iscilikDef, onSave, onCancel, saving }: { initial: any
   )
 }
 
+// ─── TextField - component dışında tanımlı (re-render sorunu olmaz) ───────────
+function TF({ label, value, onChange, type = 'text', ph = '' }: {
+  label: string; value: string; onChange: (v: string) => void; type?: string; ph?: string
+}) {
+  return (
+    <div>
+      <label style={LBL}>{label}</label>
+      {type === 'textarea'
+        ? <textarea value={value} onChange={e => onChange(e.target.value)} placeholder={ph} rows={3} style={{ ...INP, resize: 'vertical' }} />
+        : <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={ph} style={INP} />
+      }
+    </div>
+  )
+}
+
 export default function AdminPage() {
   const [tab, setTab] = useState<Tab>('dashboard')
   const [session, setSession] = useState<any>(null)
@@ -389,28 +404,7 @@ export default function AdminPage() {
     setSelLogs(new Set()); showToast(`${selLogs.size} kayıt silindi ✓`); loadLogs()
   }
 
-  function TF({ label, k, type = 'text', ph = '' }: { label: string; k: string; type?: string; ph?: string }) {
-    const [local, setLocal] = useState(S(k))
-    const [focused, setFocused] = useState(false)
-    useEffect(() => { if (!focused) setLocal(S(k)) }, [ss[k]])
-    return (
-      <div>
-        <label style={LBL}>{label}</label>
-        {type === 'textarea'
-          ? <textarea value={local}
-              onChange={e => { setLocal(e.target.value); setS(k, e.target.value) }}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-              placeholder={ph} rows={3} style={{ ...INP, resize: 'vertical' }} />
-          : <input type={type} value={local}
-              onChange={e => { setLocal(e.target.value); setS(k, e.target.value) }}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-              placeholder={ph} style={INP} />
-        }
-      </div>
-    )
-  }
+
 
   const CATS = ['all','bilezik','zincir','kolye','yuzuk','kupe']
   const CLBL: Record<string,string> = { all:'Tümü', bilezik:'Bilezik', zincir:'Zincir', kolye:'Kolye', yuzuk:'Yüzük', kupe:'Küpe' }
@@ -657,14 +651,14 @@ export default function AdminPage() {
                 <Crd t="BAŞLIKLAR VE AÇIKLAMA">
                   <div className="g2" style={{ marginBottom: 16 }}>
                     <div>
-                      <TF label="ANA BAŞLIK (TÜRKÇE)" k="hero_title_tr" />
-                      <TF label="VURGU BAŞLIK (TÜRKÇE)" k="hero_subtitle_tr" />
-                      <TF label="AÇIKLAMA (TÜRKÇE)" k="hero_desc_tr" type="textarea" />
+                      <TF label="ANA BAŞLIK (TÜRKÇE)" value={S('hero_title_tr')} onChange={v => setS('hero_title_tr', v)} />
+                      <TF label="VURGU BAŞLIK (TÜRKÇE)" value={S('hero_subtitle_tr')} onChange={v => setS('hero_subtitle_tr', v)} />
+                      <TF label="AÇIKLAMA (TÜRKÇE)" value={S('hero_desc_tr')} onChange={v => setS('hero_desc_tr', v)} type="textarea" />
                     </div>
                     <div>
-                      <TF label="ANA BAŞLIK (İNGİLİZCE)" k="hero_title_en" />
-                      <TF label="VURGU BAŞLIK (İNGİLİZCE)" k="hero_subtitle_en" />
-                      <TF label="AÇIKLAMA (İNGİLİZCE)" k="hero_desc_en" type="textarea" />
+                      <TF label="ANA BAŞLIK (İNGİLİZCE)" value={S('hero_title_en')} onChange={v => setS('hero_title_en', v)} />
+                      <TF label="VURGU BAŞLIK (İNGİLİZCE)" value={S('hero_subtitle_en')} onChange={v => setS('hero_subtitle_en', v)} />
+                      <TF label="AÇIKLAMA (İNGİLİZCE)" value={S('hero_desc_en')} onChange={v => setS('hero_desc_en', v)} type="textarea" />
                     </div>
                   </div>
                   <Sbtn onClick={() => saveSS(['hero_title_tr','hero_title_en','hero_subtitle_tr','hero_subtitle_en','hero_desc_tr','hero_desc_en'])} saving={saving} gold />
@@ -702,8 +696,8 @@ export default function AdminPage() {
                 <div style={{ fontSize: 11.5, color: '#64748b', marginBottom: 18 }}>Hakkımızda bölümü metinleri</div>
                 <Crd t="METİN">
                   <div className="g2" style={{ marginBottom: 16 }}>
-                    <TF label="HAKKIMIZDA (TÜRKÇE)" k="about_text_tr" type="textarea" />
-                    <TF label="ABOUT TEXT (İNGİLİZCE)" k="about_text_en" type="textarea" />
+                    <TF label="HAKKIMIZDA (TÜRKÇE)" value={S('about_text_tr')} onChange={v => setS('about_text_tr', v)} type="textarea" />
+                    <TF label="ABOUT TEXT (İNGİLİZCE)" value={S('about_text_en')} onChange={v => setS('about_text_en', v)} type="textarea" />
                   </div>
                   <Sbtn onClick={() => saveSS(['about_text_tr','about_text_en'])} saving={saving} />
                 </Crd>
@@ -731,15 +725,15 @@ export default function AdminPage() {
                 <div style={{ fontSize: 11.5, color: '#64748b', marginBottom: 18 }}>Tüm iletişim bilgilerini güncelleyin</div>
                 <div className="g2" style={{ marginBottom: 16 }}>
                   <Crd t="İLETİŞİM KANALLARI">
-                    <TF label="WHATSAPP (ülke kodu dahil)" k="whatsapp_number" ph="905076053110" />
-                    <TF label="TELEFON 1" k="phone_1" />
-                    <TF label="TELEFON 2" k="phone_2" />
-                    <TF label="INSTAGRAM (@'siz)" k="instagram" />
+                    <TF label="WHATSAPP (ülke kodu dahil)" value={S('whatsapp_number')} onChange={v => setS('whatsapp_number', v)} ph="905076053110" />
+                    <TF label="TELEFON 1" value={S('phone_1')} onChange={v => setS('phone_1', v)} />
+                    <TF label="TELEFON 2" value={S('phone_2')} onChange={v => setS('phone_2', v)} />
+                    <TF label="INSTAGRAM (@'siz)" value={S('instagram')} onChange={v => setS('instagram', v)} />
                   </Crd>
                   <Crd t="ADRES VE KONUM">
-                    <TF label="ADRES" k="store_address" type="textarea" />
-                    <TF label="ÇALIŞMA SAATLERİ" k="working_hours" />
-                    <TF label="GOOGLE MAPS LİNKİ" k="maps_url" />
+                    <TF label="ADRES" value={S('store_address')} onChange={v => setS('store_address', v)} type="textarea" />
+                    <TF label="ÇALIŞMA SAATLERİ" value={S('working_hours')} onChange={v => setS('working_hours', v)} />
+                    <TF label="GOOGLE MAPS LİNKİ" value={S('maps_url')} onChange={v => setS('maps_url', v)} />
                   </Crd>
                 </div>
                 <Sbtn onClick={() => saveSS(['whatsapp_number','phone_1','phone_2','instagram','store_address','working_hours','maps_url'])} saving={saving} label="TÜM BİLGİLERİ KAYDET" gold />
@@ -753,10 +747,10 @@ export default function AdminPage() {
                 <div style={{ fontSize: 11.5, color: '#64748b', marginBottom: 18 }}>Genel site ayarları</div>
                 <Crd t="MAĞAZA BİLGİLERİ">
                   <div className="g2" style={{ marginBottom: 16 }}>
-                    <TF label="MAĞAZA ADI" k="store_name" />
-                    <TF label="VARSAYILAN İŞÇİLİK (TL)" k="iscilik_default" type="number" />
-                    <TF label="FOOTER AÇIKLAMA (TÜRKÇE)" k="footer_desc_tr" type="textarea" />
-                    <TF label="FOOTER AÇIKLAMA (İNGİLİZCE)" k="footer_desc_en" type="textarea" />
+                    <TF label="MAĞAZA ADI" value={S('store_name')} onChange={v => setS('store_name', v)} />
+                    <TF label="VARSAYILAN İŞÇİLİK (TL)" value={S('iscilik_default')} onChange={v => setS('iscilik_default', v)} type="number" />
+                    <TF label="FOOTER AÇIKLAMA (TÜRKÇE)" value={S('footer_desc_tr')} onChange={v => setS('footer_desc_tr', v)} type="textarea" />
+                    <TF label="FOOTER AÇIKLAMA (İNGİLİZCE)" value={S('footer_desc_en')} onChange={v => setS('footer_desc_en', v)} type="textarea" />
                   </div>
                   <Sbtn onClick={() => saveSS(['store_name','iscilik_default','footer_desc_tr','footer_desc_en'])} saving={saving} />
                 </Crd>
