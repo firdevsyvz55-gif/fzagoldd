@@ -519,36 +519,6 @@ export default function Home() {
             <a href="#calculator" className="btn-outline">{T('Fiyat Hesapla', 'Price Calculator')}</a>
           </div>
         </div>
-
-        {/* Rate Card */}
-        <div className="rate-card">
-          <div className="rate-live">
-            <div className="rate-dot" />
-            <span className="rate-live-txt">{T('Canlı Altın', 'Live Gold')}</span>
-          </div>
-          <div className="rate-card-main">
-            <div>
-              <div style={{ fontSize: 7, letterSpacing: 2, color: 'rgba(255,255,255,.35)', marginBottom: 2 }}>{T('ALIŞ', 'BUY')}</div>
-              <div className="rate-big">₺{fmt(rates.has_altin).split(',')[0]}<span style={{ fontSize: 18 }}>,{fmt(rates.has_altin).split(',')[1]}</span></div>
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 7, letterSpacing: 2, color: 'rgba(255,255,255,.35)', marginBottom: 2 }}>{T('SATIŞ', 'SELL')}</div>
-              <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 26, fontWeight: 300, color: '#c9a84c', lineHeight: 1 }}>
-                ₺{fmt(rates.has_altin_satis || rates.has_altin).split(',')[0]}<span style={{ fontSize: 16 }}>,{fmt(rates.has_altin_satis || rates.has_altin).split(',')[1]}</span>
-              </div>
-            </div>
-          </div>
-          <div className="rate-sub">HAS ALTIN / GR</div>
-          <div className="rate-divider" />
-          <div className="rate-rows">
-          {([['22K', rates.altin_22k], ['18K', rates.altin_18k], ['14K', rates.altin_14k]] as [string, number][]).map(([k, v]) => (
-            <div key={k} className="rate-row">
-              <span className="rate-row-l">{k} / GR</span>
-              <span className="rate-row-r">₺{fmt(v)}</span>
-            </div>
-          ))}
-          </div>
-        </div>
       </section>
 
       {/* ── TICKER ── */}
