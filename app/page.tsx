@@ -101,7 +101,7 @@ export default function Home() {
 
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box }
     html { scroll-behavior:smooth }
-    body { font-family:'Jost',sans-serif; font-weight:300; background:#faf9f7; color:#1a1a1a; overflow-x:hidden }
+    body { font-family:'Jost',sans-serif; font-weight:300; background:#faf9f7; color:#0d1b2a; overflow-x:hidden }
     ::-webkit-scrollbar { width:1px } ::-webkit-scrollbar-thumb { background:#c9a84c }
     ::selection { background:rgba(201,168,76,.15) }
 
@@ -137,7 +137,7 @@ export default function Home() {
     .nav-logo img { width:36px; height:36px; border-radius:50%; object-fit:cover; border:1px solid rgba(201,168,76,.4) }
     .nav-logo-name { font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:400; letter-spacing:6px; transition:color .4s }
     .nav:not(.solid) .nav-logo-name { color:#fff }
-    .nav.solid .nav-logo-name { color:#1a1a1a }
+    .nav.solid .nav-logo-name { color:#0d1b2a }
     .nav-logo-sub { font-size:6.5px; letter-spacing:3px; color:rgba(201,168,76,.7); text-transform:uppercase; display:block; margin-top:2px }
     .nav-links { display:flex; gap:44px }
     .nav-a { font-size:8.5px; letter-spacing:3px; text-transform:uppercase; text-decoration:none; transition:color .3s; cursor:pointer; font-weight:400 }
@@ -152,11 +152,11 @@ export default function Home() {
     .burger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px }
     .burger span { display:block; width:20px; height:1px; transition:all .35s }
     .nav:not(.solid) .burger span { background:rgba(255,255,255,.8) }
-    .nav.solid .burger span { background:#1a1a1a }
+    .nav.solid .burger span { background:#0d1b2a }
     .mobile-menu { display:none; position:fixed; top:64px; left:0; right:0; z-index:899; flex-direction:column; padding:8px 0 20px }
     .mobile-menu.open { display:flex }
     .mobile-menu-solid { background:rgba(250,249,247,.98); border-bottom:1px solid rgba(26,26,26,.06) }
-    .mobile-menu-dark { background:rgba(10,10,10,.97); backdrop-filter:blur(24px) }
+    .mobile-menu-dark { background:rgba(8,20,42,.97); backdrop-filter:blur(24px) }
     .mobile-menu a { display:block; padding:14px 6%; font-size:8.5px; letter-spacing:3px; text-transform:uppercase; text-decoration:none; border-bottom:1px solid rgba(201,168,76,.06); font-family:'Jost',sans-serif; font-weight:400 }
 
     /* ── HERO ── */
@@ -189,12 +189,14 @@ export default function Home() {
     /* ── RATE CARD ── */
     .rate-card {
       position:absolute; bottom:10vh; right:5%;
-      background:rgba(10,10,10,.85);
-      backdrop-filter:blur(20px);
-      border:1px solid rgba(201,168,76,.12);
+      background:rgba(8,24,48,.88);
+      backdrop-filter:blur(24px);
+      border:1px solid rgba(201,168,76,.18);
+      border-top:2px solid #c9a84c;
       padding:20px 24px;
-      min-width:220px;
-      z-index:2
+      min-width:230px;
+      z-index:2;
+      box-shadow:0 8px 40px rgba(0,0,0,.4)
     }
     .rate-card-main { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:4px }
     .rate-live { display:flex; align-items:center; gap:7px; margin-bottom:14px }
@@ -208,7 +210,7 @@ export default function Home() {
     .rate-row-r { font-size:10.5px; color:#c9a84c; font-weight:400 }
 
     /* ── TICKER ── */
-    .ticker-wrap { background:#1a1a1a; padding:10px 0; overflow:hidden; border-bottom:1px solid rgba(201,168,76,.08) }
+    .ticker-wrap { background:#0d1b2a; padding:10px 0; overflow:hidden; border-bottom:1px solid rgba(201,168,76,.08) }
     .ticker { display:flex; gap:56px; animation:ticker 50s linear infinite; white-space:nowrap }
     .tk-item { display:flex; align-items:center; gap:10px; flex-shrink:0 }
     .tk-l { font-size:7.5px; letter-spacing:2.5px; color:rgba(255,255,255,.3); text-transform:uppercase }
@@ -217,9 +219,9 @@ export default function Home() {
 
     /* ── SECTIONS ── */
     .sec { padding:96px 6% }
-    .sec-dark { background:#0f0f0f; color:#fff }
-    .sec-light { background:#faf9f7; color:#1a1a1a }
-    .sec-grey { background:#f4f3f1; color:#1a1a1a }
+    .sec-dark { background:#0a1a2e; color:#fff }
+    .sec-light { background:#faf9f7; color:#0d1b2a }
+    .sec-grey { background:#f4f3f1; color:#0d1b2a }
     .eyebrow { font-size:8px; letter-spacing:5px; text-transform:uppercase; color:#c9a84c; display:flex; align-items:center; gap:16px; margin-bottom:14px }
     .eyebrow::before { content:''; display:block; width:28px; height:1px; background:#c9a84c }
     .sec-h2 { font-family:'Cormorant Garamond',serif; font-weight:300; line-height:1.05; margin-bottom:56px }
@@ -241,8 +243,8 @@ export default function Home() {
 
     /* ── CALCULATOR ── */
     .calc-wrap { display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:0 }
-    .calc-left { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.04); padding:40px }
-    .calc-right { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.04); padding:40px; display:flex; flex-direction:column; gap:2px }
+    .calc-left { background:rgba(8,24,48,.5); border:1px solid rgba(201,168,76,.08); padding:40px }
+    .calc-right { background:rgba(8,24,48,.5); border:1px solid rgba(201,168,76,.08); padding:40px; display:flex; flex-direction:column; gap:2px }
     .c-lbl { font-size:7px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,.3); display:block; margin-bottom:8px }
     .c-sel { width:100%; background:rgba(255,255,255,.04); border:none; border-bottom:1px solid rgba(255,255,255,.08); color:#e8e0d0; padding:12px 0; font-size:13px; outline:none; margin-bottom:24px; font-family:'Jost',sans-serif; cursor:pointer; -webkit-appearance:none }
     .c-inp { width:100%; background:transparent; border:none; border-bottom:1px solid rgba(255,255,255,.08); color:#e8e0d0; padding:12px 0; font-size:13px; outline:none; margin-bottom:24px; font-family:'Jost',sans-serif }
@@ -261,21 +263,21 @@ export default function Home() {
     .filter-bar-wrap::-webkit-scrollbar { display:none }
     .filter-bar-inner { display:flex; border-bottom:1px solid rgba(26,26,26,.08); width:max-content; min-width:100% }
     .f-btn { padding:12px 22px; border:none; background:transparent; font-size:8px; letter-spacing:3px; text-transform:uppercase; color:rgba(26,26,26,.35); cursor:pointer; font-family:'Jost',sans-serif; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all .25s; font-weight:400 }
-    .f-btn:hover { color:#1a1a1a }
-    .f-btn.on { color:#1a1a1a; border-bottom-color:#c9a84c }
+    .f-btn:hover { color:#0d1b2a }
+    .f-btn.on { color:#0d1b2a; border-bottom-color:#c9a84c }
     .prod-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px }
     .pcard { background:#fff; cursor:pointer; overflow:hidden; position:relative }
     .pcard-img { aspect-ratio:.8; overflow:hidden; background:#f0eeea }
     .pcard-img img { width:100%; height:100%; object-fit:cover; transition:transform .8s cubic-bezier(.16,1,.3,1) }
     .pcard:hover .pcard-img img { transform:scale(1.06) }
     .pcard-ph { width:100%; height:100%; background:linear-gradient(135deg,#ede9e3,#e4dfd8); display:flex; align-items:center; justify-content:center }
-    .pcard-bdg { position:absolute; top:12px; left:12px; background:#1a1a1a; color:#fff; font-size:6px; letter-spacing:2px; padding:4px 9px; font-weight:400; text-transform:uppercase }
+    .pcard-bdg { position:absolute; top:12px; left:12px; background:#0d1b2a; color:#fff; font-size:6px; letter-spacing:2px; padding:4px 9px; font-weight:400; text-transform:uppercase }
     .pcard-body { padding:18px 20px 22px }
     .pcard-meta { display:flex; align-items:center; gap:6px; margin-bottom:6px }
     .pcard-karat { font-size:7px; letter-spacing:3px; color:#c9a84c; text-transform:uppercase }
     .pcard-dot { color:rgba(26,26,26,.15); font-size:7px }
     .pcard-cat { font-size:7px; letter-spacing:2px; color:rgba(26,26,26,.35); text-transform:uppercase }
-    .pcard-name { font-family:'Cormorant Garamond',serif; font-size:18px; color:#1a1a1a; margin-bottom:4px; line-height:1.2; font-weight:400 }
+    .pcard-name { font-family:'Cormorant Garamond',serif; font-size:18px; color:#0d1b2a; margin-bottom:4px; line-height:1.2; font-weight:400 }
     .pcard-weight { font-size:9.5px; color:rgba(26,26,26,.3); margin-bottom:12px }
     .pcard-cta { font-size:7.5px; color:#c9a84c; letter-spacing:1.5px; border-bottom:1px solid rgba(201,168,76,.25); padding-bottom:1px; display:inline-block; text-transform:uppercase }
     .no-prod { padding:80px 0; text-align:center; color:rgba(26,26,26,.3) }
@@ -287,10 +289,10 @@ export default function Home() {
     .about-item { display:flex; gap:16px; padding:16px 0; border-bottom:1px solid rgba(26,26,26,.06) }
     .about-item:first-child { border-top:1px solid rgba(26,26,26,.06) }
     .about-item-icon { font-size:14px; flex-shrink:0; margin-top:2px; opacity:.6 }
-    .about-item-t { font-size:8px; letter-spacing:2.5px; text-transform:uppercase; color:#1a1a1a; margin-bottom:4px; font-weight:500 }
+    .about-item-t { font-size:8px; letter-spacing:2.5px; text-transform:uppercase; color:#0d1b2a; margin-bottom:4px; font-weight:500 }
     .about-item-v { font-size:11.5px; color:#666; line-height:1.8; white-space:pre-line }
     .stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-bottom:1px }
-    .stat-box { background:#1a1a1a; padding:28px 24px }
+    .stat-box { background:#0a1628; padding:28px 24px }
     .stat-n { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:300; line-height:1; margin-bottom:6px }
     .stat-l { font-size:7.5px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,.45) }
     .stat-brand { background:#c9a84c; padding:22px 26px; display:flex; align-items:center; gap:14px }
@@ -311,7 +313,7 @@ export default function Home() {
     .c-cta-p { font-size:11px; color:rgba(255,255,255,.35); line-height:1.8 }
 
     /* ── FOOTER ── */
-    .footer { background:#0a0a0a; padding:48px 6% 24px }
+    .footer { background:#071120; padding:48px 6% 24px }
     .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; margin-bottom:36px }
     .footer-col-t { font-size:7.5px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,.25); margin-bottom:14px; font-weight:400 }
     .footer-lnk { display:block; font-size:11px; color:rgba(255,255,255,.3); margin-bottom:7px; cursor:pointer; transition:color .25s; text-decoration:none }
@@ -325,7 +327,7 @@ export default function Home() {
 
     /* ── MODAL ── */
     .modal-ov { position:fixed; inset:0; background:rgba(0,0,0,.75); backdrop-filter:blur(8px); z-index:2000; display:flex; align-items:center; justify-content:center; padding:20px }
-    .modal { background:#0f0f0f; border:1px solid rgba(255,255,255,.06); width:100%; max-width:620px; max-height:90vh; overflow-y:auto }
+    .modal { background:#081628; border:1px solid rgba(255,255,255,.06); width:100%; max-width:620px; max-height:90vh; overflow-y:auto }
     .modal-top { height:2px; background:linear-gradient(90deg,#c9a84c,#e8c97a,#a07830) }
     .modal-head { display:flex; justify-content:space-between; align-items:flex-start; padding:28px 28px 20px }
     .modal-k { font-size:7.5px; letter-spacing:3px; color:#c9a84c; text-transform:uppercase; margin-bottom:6px }
@@ -374,7 +376,7 @@ export default function Home() {
       .rate-card {
         position:static; width:100%; transform:none;
         border:none; border-top:1px solid rgba(201,168,76,.1);
-        background:#111; padding:10px 5%;
+        background:rgba(8,24,48,.97); padding:10px 5%;
         display:flex; flex-wrap:wrap; align-items:center; gap:8px 16px
       }
       .rate-card .rate-live { margin-bottom:0 }
@@ -805,15 +807,22 @@ export default function Home() {
           </div>
           <div>
             <div className="footer-col-t">{T('KATEGORİLER', 'CATEGORIES')}</div>
-            {[T('Bilezikler', 'Bracelets'), T('Zincirler', 'Chains'), T('Kolyeler', 'Necklaces'), T('Yüzükler', 'Rings'), T('Küpeler', 'Earrings')].map(l => (
-              <span key={l} className="footer-lnk">{l}</span>
+            {[
+              [T('Bilezikler','Bracelets'),'bilezik'],
+              [T('Zincirler','Chains'),'zincir'],
+              [T('Kolyeler','Necklaces'),'kolye'],
+              [T('Yüzükler','Rings'),'yuzuk'],
+              [T('Küpeler','Earrings'),'kupe'],
+            ].map(([l,cat]) => (
+              <a key={l as string} href="#products" className="footer-lnk" onClick={() => { setFilter(cat as string); document.getElementById('products')?.scrollIntoView({behavior:'smooth'}) }}>{l}</a>
             ))}
           </div>
           <div>
             <div className="footer-col-t">{T('İLETİŞİM', 'CONTACT')}</div>
-            {[S('phone_1', '0212 520 17 66'), S('phone_2', '0507 605 31 10'), 'WhatsApp', S('instagram', '@fzagold')].map(l => (
-              <span key={l} className="footer-lnk">{l}</span>
-            ))}
+            <a href={`tel:${S('phone_1','02125201766')}`} className="footer-lnk">{S('phone_1','0212 520 17 66')}</a>
+            <a href={`tel:${S('phone_2','05076053110')}`} className="footer-lnk">{S('phone_2','0507 605 31 10')}</a>
+            <a href={`https://wa.me/${S('whatsapp_number','905076053110')}`} target="_blank" className="footer-lnk">WhatsApp</a>
+            <a href={`https://instagram.com/${S('instagram','fzagold').replace('@','')}`} target="_blank" className="footer-lnk">{S('instagram','@fzagold')}</a>
           </div>
           <div>
             <div className="footer-col-t">{T('ADRES', 'ADDRESS')}</div>
