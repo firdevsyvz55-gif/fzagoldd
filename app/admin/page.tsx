@@ -17,32 +17,33 @@ type Settings = Record<string, string>
 type Tab = 'dashboard' | 'products' | 'add' | 'hero' | 'gorseller' | 'hakkimizda' | 'iletisim' | 'ayarlar' | 'kullanicilar' | 'aktivite'
 
 // ─── CONSTANTS ─────────────────────────────────────────────────────────────────
-const GOLD = '#c9a84c', NAVY = '#0d1b2a'
-const INP: React.CSSProperties = { width: '100%', border: '1px solid #e2e8f0', padding: '10px 14px', fontSize: 13, outline: 'none', marginBottom: 16, fontFamily: 'inherit', background: 'white', boxSizing: 'border-box' }
-const LBL: React.CSSProperties = { display: 'block', fontSize: 9, letterSpacing: 2, textTransform: 'uppercase', color: '#64748b', marginBottom: 6, fontWeight: 500 }
+const GOLD = '#c9a84c', NAVY = '#071120'
+const INP: React.CSSProperties = { width: '100%', border: 'none', borderBottom: '1px solid rgba(201,168,76,.2)', padding: '10px 2px', fontSize: 13, outline: 'none', marginBottom: 20, fontFamily: 'inherit', background: 'transparent', boxSizing: 'border-box', color: '#1a1a1a', transition: 'border-color .2s' }
+const LBL: React.CSSProperties = { display: 'block', fontSize: 8, letterSpacing: 2.5, textTransform: 'uppercase', color: '#94a3b8', marginBottom: 6, fontWeight: 400 }
 
 // ─── SUB-COMPONENTS ────────────────────────────────────────────────────────────
 
 function Card({ title, children, accent }: { title: string; children: React.ReactNode; accent?: string }) {
   return (
-    <div style={{ background: 'white', border: '1px solid #e2e8f0', marginBottom: 20, position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: accent || `linear-gradient(90deg,${GOLD},#f0d080,#a07830)` }} />
-      <div style={{ padding: '16px 24px', borderBottom: '1px solid #f1f5f9', fontSize: 9, letterSpacing: 2.5, textTransform: 'uppercase', color: GOLD, fontWeight: 600, marginTop: 2 }}>{title}</div>
-      <div style={{ padding: 24 }}>{children}</div>
+    <div style={{ background: 'white', border: '1px solid #f1f5f9', marginBottom: 20, position: 'relative', overflow: 'hidden', boxShadow: '0 1px 8px rgba(0,0,0,.04)' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1.5, background: accent || `linear-gradient(90deg,${GOLD},#e8c97a,#a07830)` }} />
+      <div style={{ padding: '14px 22px', borderBottom: '1px solid #f8fafc', fontSize: 8, letterSpacing: 3, textTransform: 'uppercase', color: GOLD, fontWeight: 500, marginTop: 1.5 }}>{title}</div>
+      <div style={{ padding: '22px 22px' }}>{children}</div>
     </div>
+    </>
   )
 }
 
 function SaveBtn({ onClick, saving, label = 'KAYDET', gold }: { onClick: () => void; saving: boolean; label?: string; gold?: boolean }) {
   return (
-    <button onClick={onClick} disabled={saving} style={{ background: gold ? `linear-gradient(135deg,${GOLD},#f0d080,#a07830)` : NAVY, border: 'none', color: gold ? NAVY : 'white', padding: '11px 28px', fontSize: 9, letterSpacing: 2, cursor: saving ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 600, opacity: saving ? .7 : 1 }}>
+    <button onClick={onClick} disabled={saving} style={{ background: gold ? GOLD : NAVY, border: 'none', color: 'white', padding: '12px 32px', fontSize: 8, letterSpacing: 2.5, cursor: saving ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontWeight: 500, opacity: saving ? .7 : 1, transition: 'opacity .2s', textTransform: 'uppercase' }}>
       {saving ? 'KAYDEDİLİYOR...' : label}
     </button>
   )
 }
 
 function Badge({ active }: { active: boolean }) {
-  return <span style={{ fontSize: 8, padding: '3px 8px', fontWeight: 700, background: active ? '#dcfce7' : '#fef9c3', color: active ? '#16a34a' : '#ca8a04', letterSpacing: 1 }}>{active ? 'AKTİF' : 'GİZLİ'}</span>
+  return <span style={{ fontSize: 7, padding: '3px 10px', fontWeight: 500, background: active ? '#f0fdf4' : '#fef9c3', color: active ? '#16a34a' : '#ca8a04', letterSpacing: 1.5, border: `1px solid ${active ? '#bbf7d0' : '#fde68a'}`, textTransform: 'uppercase' }}>{active ? 'AKTİF' : 'GİZLİ'}</span>
 }
 
 // ─── IMAGE SLOT ────────────────────────────────────────────────────────────────
@@ -95,6 +96,7 @@ function ImageSlot({ slotKey, label, desc, wide, currentUrl, onSaved, showToast 
       </button>
       {preview && <div style={{ fontSize: 8.5, color: '#94a3b8', marginTop: 6, wordBreak: 'break-all', letterSpacing: .3 }}>{preview.split('/').pop()?.substring(0, 50)}</div>}
     </div>
+    </>
   )
 }
 
@@ -195,6 +197,7 @@ function ProductForm({ initial, iscilikDefault, onSave, onCancel, saving }: {
         </div>
       </div>
     </div>
+    </>
   )
 }
 
@@ -215,6 +218,7 @@ export default function AdminPage() {
   const [newPass, setNewPass] = useState('')
   const [selectedLogs, setSelectedLogs] = useState<Set<string>>(new Set())
   const [catFilter, setCatFilter] = useState('all')
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchQ, setSearchQ] = useState('')
 
   const S = (k: string, fb = '') => ss[k] || fb
@@ -342,90 +346,9 @@ export default function AdminPage() {
     setSaving(false)
   }
 
-  function TextField({ label, k, type = 'text', ph = '' }: { label: string; k: string; type?: string; ph?: string }) {
-    const [local, setLocal] = useState(S(k))
-    useEffect(() => { setLocal(S(k)) }, [ss[k]])
-    return (
-      <div>
-        <label style={LBL}>{label}</label>
-        {type === 'textarea'
-          ? <textarea value={local} onChange={e => setLocal(e.target.value)} onBlur={e => setS(k, e.target.value)} placeholder={ph} rows={3} style={{ ...INP, resize: 'vertical' }} />
-          : <input type={type} value={local} onChange={e => setLocal(e.target.value)} onBlur={e => setS(k, e.target.value)} placeholder={ph} style={INP} />
-        }
-      </div>
-    )
-  }
 
-  // Filtered products
-  const filteredProducts = products.filter(p => {
-    const matchCat = catFilter === 'all' || p.category === catFilter
-    const matchQ = !searchQ || p.name.toLowerCase().includes(searchQ.toLowerCase()) || (p.name_en || '').toLowerCase().includes(searchQ.toLowerCase())
-    return matchCat && matchQ
-  })
 
-  const TABS: { id: Tab; label: string; icon: string; group: string }[] = [
-    { id: 'dashboard', label: 'Dashboard', icon: '⊞', group: 'GENEL' },
-    { id: 'products', label: 'Ürünler', icon: '◇', group: 'ÜRÜNLER' },
-    { id: 'add', label: 'Ürün Ekle', icon: '+', group: 'ÜRÜNLER' },
-    { id: 'hero', label: 'Hero Bölümü', icon: '▣', group: 'SİTE İÇERİK' },
-    { id: 'gorseller', label: 'Site Görselleri', icon: '🖼', group: 'SİTE İÇERİK' },
-    { id: 'hakkimizda', label: 'Hakkımızda', icon: '◉', group: 'SİTE İÇERİK' },
-    { id: 'iletisim', label: 'İletişim', icon: '◎', group: 'SİTE İÇERİK' },
-    { id: 'ayarlar', label: 'Ayarlar', icon: '⚙', group: 'SİSTEM' },
-    { id: 'kullanicilar', label: 'Kullanıcılar', icon: '👤', group: 'SİSTEM' },
-    { id: 'aktivite', label: 'Aktivite', icon: '📋', group: 'SİSTEM' },
-  ]
-  const GROUPS = ['GENEL', 'ÜRÜNLER', 'SİTE İÇERİK', 'SİSTEM']
 
-  // ─── LOGIN ────────────────────────────────────────────────────────────────────
-  if (!session) return (
-    <div style={{ minHeight: '100vh', background: '#060a14', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Segoe UI',system-ui,sans-serif" }}>
-      <div style={{ width: 400 }}>
-        <div style={{ textAlign: 'center', marginBottom: 36 }}>
-          <img src={LOGO} alt="FZA" style={{ width: 80, height: 80, borderRadius: '50%', border: '2px solid rgba(201,168,76,.35)', marginBottom: 16, objectFit: 'cover' }} />
-          <div style={{ fontFamily: 'Georgia,serif', fontSize: 22, color: 'white', letterSpacing: 5, fontWeight: 300 }}>FZAGOLD</div>
-          <div style={{ fontSize: 8.5, letterSpacing: 3.5, color: 'rgba(201,168,76,.45)', marginTop: 5 }}>ADMİN PANELİ</div>
-        </div>
-        <div style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(201,168,76,.1)', padding: '40px 36px', position: 'relative' }}>
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,${GOLD},#f0d080,#a07830)` }} />
-          {loginErr && (
-            <div style={{ background: 'rgba(220,50,50,.1)', border: '1px solid rgba(220,50,50,.2)', color: '#ff6b6b', fontSize: 11, padding: '10px 14px', marginBottom: 20, letterSpacing: .5 }}>
-              ⚠ {loginErr}
-            </div>
-          )}
-          <label style={{ ...LBL, color: 'rgba(255,255,255,.35)' }}>E-POSTA</label>
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-            style={{ ...INP, background: 'rgba(255,255,255,.07)', border: '1px solid rgba(255,255,255,.1)', color: 'white' }} />
-          <label style={{ ...LBL, color: 'rgba(255,255,255,.35)' }}>ŞİFRE</label>
-          <input type="password" value={password} onChange={e => setPassword(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && login()}
-            style={{ ...INP, background: 'rgba(255,255,255,.07)', border: '1px solid rgba(255,255,255,.1)', color: 'white' }} />
-          <button onClick={login} style={{ width: '100%', background: `linear-gradient(135deg,${GOLD},#f0d080,#a07830)`, border: 'none', color: NAVY, padding: 14, fontSize: 10, letterSpacing: 3, cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700 }}>
-            GİRİŞ YAP
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-
-  // ─── DASHBOARD ────────────────────────────────────────────────────────────────
-  const stats = [
-    { l: 'TOPLAM ÜRÜN', v: products.length, c: NAVY },
-    { l: 'AKTİF ÜRÜN', v: products.filter(p => p.is_active).length, c: '#16a34a' },
-    { l: 'GİZLİ ÜRÜN', v: products.filter(p => !p.is_active).length, c: '#d97706' },
-    { l: 'KATEGORİ', v: new Set(products.map(p => p.category)).size, c: '#2563eb' },
-  ]
-
-  const LOG_COLOR: Record<string, { bg: string; txt: string }> = {
-    'GİRİŞ': { bg: '#dbeafe', txt: '#1d4ed8' },
-    'ÇIKIŞ': { bg: '#f1f5f9', txt: '#64748b' },
-  }
-  function logColor(action: string) {
-    if (LOG_COLOR[action]) return LOG_COLOR[action]
-    if (action.includes('SİL')) return { bg: '#fef2f2', txt: '#dc2626' }
-    if (action.includes('EKLE')) return { bg: '#dcfce7', txt: '#16a34a' }
-    return { bg: '#fef9c3', txt: '#ca8a04' }
-  }
 
   const HEADER_STYLE: React.CSSProperties = { padding: '11px 14px', textAlign: 'left', fontSize: 8, letterSpacing: 2, color: 'rgba(255,255,255,.45)', fontWeight: 400 }
   const CATS = ['all', 'bilezik', 'zincir', 'kolye', 'yuzuk', 'kupe']
@@ -433,17 +356,53 @@ export default function AdminPage() {
 
   // ─── RENDER ───────────────────────────────────────────────────────────────────
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', fontFamily: "'Segoe UI',system-ui,sans-serif", display: 'flex' }}>
+    <>
+    <style>{`
+      @import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500&family=Cormorant+Garamond:wght@300;400;600&display=swap');
+      * { box-sizing: border-box }
+      body { margin: 0 }
+      .adm-wrap { min-height:100vh; background:#f8f9fb; font-family:'Jost',sans-serif; display:flex }
+      .adm-overlay { display:none; position:fixed; inset:0; background:rgba(7,17,32,.5); z-index:99; backdrop-filter:blur(2px) }
+      .adm-sidebar { width:240px; background:#071120; position:fixed; top:0; bottom:0; left:0; display:flex; flex-direction:column; z-index:100; overflow-y:auto; transition:transform .3s cubic-bezier(.16,1,.3,1) }
+      .adm-main { margin-left:240px; flex:1; padding:28px 32px; min-height:100vh }
+      .adm-topbar { display:none }
+      @media(max-width:768px){
+        .adm-sidebar { transform:translateX(-100%); width:260px }
+        .adm-sidebar.open { transform:translateX(0) }
+        .adm-overlay.open { display:block }
+        .adm-main { margin-left:0; padding:16px }
+        .adm-topbar { display:flex; align-items:center; justify-content:space-between; background:#071120; padding:12px 16px; position:sticky; top:0; z-index:90; margin:-16px -16px 16px }
+        .adm-page-grid-4 { grid-template-columns:1fr 1fr !important }
+        .adm-page-grid-2 { grid-template-columns:1fr !important }
+        .adm-tbl-hide { display:none !important }
+      }
+      @media(max-width:480px){
+        .adm-page-grid-4 { grid-template-columns:1fr !important }
+      }
+      .adm-nav-btn { width:100%; display:flex; align-items:center; gap:9px; padding:9px 18px; background:transparent; border:none; border-left:2px solid transparent; color:rgba(255,255,255,.35); font-size:11px; cursor:pointer; font-family:inherit; text-align:left; transition:all .2s }
+      .adm-nav-btn:hover { background:rgba(255,255,255,.05); color:rgba(255,255,255,.7) }
+      .adm-nav-btn.active { background:rgba(201,168,76,.08); border-left-color:#c9a84c; color:#c9a84c }
+      .adm-section-title { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:300; color:#071120; margin-bottom:3px }
+      .adm-section-sub { font-size:11.5px; color:#94a3b8; margin-bottom:22px }
+      input:focus, select:focus, textarea:focus { border-bottom-color:#c9a84c !important }
+    `}</style>
+    <div className="adm-wrap">
+
+      {/* Mobil overlay */}
+      <div className={`adm-overlay${sidebarOpen ? ' open' : ''}`} onClick={() => setSidebarOpen(false)} />
 
       {/* ── SIDEBAR ── */}
-      <div style={{ width: 228, background: NAVY, position: 'fixed', top: 0, bottom: 0, left: 0, display: 'flex', flexDirection: 'column', zIndex: 100, overflowY: 'auto' }}>
+      <div className={`adm-sidebar${sidebarOpen ? ' open' : ''}`}>
         {/* Logo */}
-        <div style={{ padding: '18px 16px', borderBottom: '1px solid rgba(201,168,76,.08)', display: 'flex', alignItems: 'center', gap: 10 }}>
-          <img src={LOGO} alt="FZA" style={{ width: 34, height: 34, borderRadius: '50%', border: `1.5px solid rgba(201,168,76,.35)`, flexShrink: 0, objectFit: 'cover' }} />
-          <div>
-            <div style={{ fontFamily: 'Georgia,serif', fontSize: 13, color: 'white', letterSpacing: 3, fontWeight: 300 }}>FZAGOLD</div>
-            <div style={{ fontSize: 7, letterSpacing: 2, color: 'rgba(201,168,76,.4)', marginTop: 1 }}>ADMİN PANELİ</div>
+        <div style={{ padding: '16px 18px', borderBottom: '1px solid rgba(201,168,76,.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <img src={LOGO} alt="FZA" style={{ width: 32, height: 32, borderRadius: '50%', border: '1px solid rgba(201,168,76,.4)', flexShrink: 0, objectFit: 'cover' }} />
+            <div>
+              <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 14, color: 'white', letterSpacing: 4, fontWeight: 300 }}>FZAGOLD</div>
+              <div style={{ fontSize: 6.5, letterSpacing: 2, color: 'rgba(201,168,76,.4)', marginTop: 1 }}>ADMİN PANELİ</div>
+            </div>
           </div>
+          <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,.3)', cursor: 'pointer', fontSize: 18, display: 'none', padding: 0 }} className="adm-close-btn">×</button>
         </div>
         {/* User */}
         <div style={{ padding: '9px 14px', borderBottom: '1px solid rgba(255,255,255,.04)', background: 'rgba(255,255,255,.02)' }}>
@@ -456,10 +415,8 @@ export default function AdminPage() {
             <div key={g}>
               <div style={{ fontSize: 6.5, letterSpacing: 2.5, color: 'rgba(255,255,255,.16)', padding: '10px 16px 3px', textTransform: 'uppercase' }}>{g}</div>
               {TABS.filter(t => t.group === g).map(t => (
-                <button key={t.id} onClick={() => { setTab(t.id); setEditP(null) }}
-                  style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 9, padding: '8px 16px', background: tab === t.id ? 'rgba(201,168,76,.1)' : 'transparent', border: 'none', borderLeft: tab === t.id ? `2px solid ${GOLD}` : '2px solid transparent', color: tab === t.id ? GOLD : 'rgba(255,255,255,.35)', fontSize: 10.5, cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left', transition: 'all .18s' }}
-                  onMouseEnter={e => { if (tab !== t.id) e.currentTarget.style.background = 'rgba(255,255,255,.04)' }}
-                  onMouseLeave={e => { if (tab !== t.id) e.currentTarget.style.background = 'transparent' }}
+                <button key={t.id} onClick={() => { setTab(t.id); setEditP(null); setSidebarOpen(false) }}
+                  className={`adm-nav-btn${tab === t.id ? ' active' : ''}`}
                 >
                   <span style={{ fontSize: 11, width: 15, textAlign: 'center', flexShrink: 0 }}>{t.icon}</span>
                   {t.label}
@@ -482,7 +439,19 @@ export default function AdminPage() {
       </div>
 
       {/* ── MAIN ── */}
-      <div style={{ marginLeft: 228, flex: 1, padding: '30px 34px' }}>
+      <div className="adm-main">
+        {/* Mobil topbar */}
+        <div className="adm-topbar">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <img src={LOGO} alt="FZA" style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(201,168,76,.4)' }} />
+            <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 13, color: 'white', letterSpacing: 3 }}>FZAGOLD</span>
+          </div>
+          <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+            <div style={{ width: 20, height: 1.5, background: 'white', marginBottom: 5 }} />
+            <div style={{ width: 20, height: 1.5, background: 'white', marginBottom: 5 }} />
+            <div style={{ width: 14, height: 1.5, background: 'white' }} />
+          </button>
+        </div>
         {/* Toast */}
         {toast && (
           <div style={{ position: 'fixed', top: 18, right: 18, background: NAVY, color: GOLD, padding: '11px 22px', fontSize: 11, letterSpacing: 1, zIndex: 9999, border: `1px solid rgba(201,168,76,.25)`, boxShadow: '0 8px 32px rgba(0,0,0,.25)' }}>
@@ -493,17 +462,17 @@ export default function AdminPage() {
         {/* ── DASHBOARD ── */}
         {tab === 'dashboard' && (
           <div>
-            <div style={{ fontFamily: 'Georgia,serif', fontSize: 26, fontWeight: 300, color: NAVY, marginBottom: 3 }}>Dashboard</div>
+            <div className="adm-section-title" style={{ marginBottom: 3 }}>Dashboard</div>
             <div style={{ fontSize: 12, color: '#64748b', marginBottom: 24 }}>Hoş geldiniz, <b>{session?.user?.email}</b></div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14, marginBottom: 22 }}>
+            <div className="adm-page-grid-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14, marginBottom: 22 }}>
               {stats.map(s => (
-                <div key={s.l} style={{ background: 'white', border: '1px solid #e2e8f0', padding: '20px 18px', borderTop: `3px solid ${s.c}` }}>
+                <div key={s.l} style={{ background: 'white', border: '1px solid #f1f5f9', padding: '20px 18px', borderTop: `2px solid ${s.c}`, boxShadow: '0 1px 8px rgba(0,0,0,.04)' }}>
                   <div style={{ fontSize: 7.5, letterSpacing: 2, color: '#94a3b8', marginBottom: 8, textTransform: 'uppercase' }}>{s.l}</div>
                   <div style={{ fontFamily: 'Georgia,serif', fontSize: 38, fontWeight: 300, color: NAVY, lineHeight: 1 }}>{s.v}</div>
                 </div>
               ))}
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div className="adm-page-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
               <Card title="SON EKLENEN ÜRÜNLER">
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <tbody>
@@ -539,7 +508,7 @@ export default function AdminPage() {
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
               <div>
-                <div style={{ fontFamily: 'Georgia,serif', fontSize: 26, fontWeight: 300, color: NAVY, marginBottom: 2 }}>Ürün Listesi</div>
+                <div className="adm-section-title" style={{ marginBottom: 2 }}>Ürün Listesi</div>
                 <div style={{ fontSize: 12, color: '#64748b' }}>Toplam {products.length} ürün · {filteredProducts.length} listeleniyor</div>
               </div>
               <button onClick={() => setTab('add')} style={{ background: NAVY, border: 'none', color: 'white', padding: '10px 22px', fontSize: 9, letterSpacing: 2, cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}>+ YENİ ÜRÜN</button>
@@ -621,7 +590,7 @@ export default function AdminPage() {
         {/* ── ÜRÜN EKLE ── */}
         {tab === 'add' && (
           <div>
-            <div style={{ fontFamily: 'Georgia,serif', fontSize: 26, fontWeight: 300, color: NAVY, marginBottom: 4 }}>Yeni Ürün Ekle</div>
+            <div className="adm-section-title" style={{ marginBottom: 4 }}>Yeni Ürün Ekle</div>
             <div style={{ fontSize: 12, color: '#64748b', marginBottom: 20 }}>Tüm alanları doldurun</div>
             <ProductForm
               key="new"
@@ -637,7 +606,7 @@ export default function AdminPage() {
         {/* ── HERO ── */}
         {tab === 'hero' && (
           <div>
-            <div style={{ fontFamily: 'Georgia,serif', fontSize: 26, fontWeight: 300, color: NAVY, marginBottom: 4 }}>Hero Bölümü</div>
+            <div className="adm-section-title" style={{ marginBottom: 4 }}>Hero Bölümü</div>
             <div style={{ fontSize: 12, color: '#64748b', marginBottom: 20 }}>Ana sayfanın üstündeki büyük alan</div>
             <Card title="BAŞLIKLAR VE AÇIKLAMA">
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -660,7 +629,7 @@ export default function AdminPage() {
         {/* ── SİTE GÖRSELLERİ ── */}
         {tab === 'gorseller' && (
           <div>
-            <div style={{ fontFamily: 'Georgia,serif', fontSize: 26, fontWeight: 300, color: NAVY, marginBottom: 4 }}>Site Görselleri</div>
+            <div className="adm-section-title" style={{ marginBottom: 4 }}>Site Görselleri</div>
             <div style={{ fontSize: 12, color: '#64748b', marginBottom: 24 }}>Hero ve kategori görsellerini buradan yükleyin. Supabase Storage&apos;a kaydedilir, ana sayfa otomatik güncellenir.</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(290px,1fr))', gap: 18, marginBottom: 20 }}>
               {[
@@ -688,7 +657,7 @@ export default function AdminPage() {
         {/* ── HAKKIMIZDA ── */}
         {tab === 'hakkimizda' && (
           <div>
-            <div style={{ fontFamily: 'Georgia,serif', fontSize: 26, fontWeight: 300, color: NAVY, marginBottom: 4 }}>Hakkımızda</div>
+            <div className="adm-section-title" style={{ marginBottom: 4 }}>Hakkımızda</div>
             <div style={{ fontSize: 12, color: '#64748b', marginBottom: 20 }}>Site orta kısmındaki hakkımızda bölümü</div>
             <Card title="METİN">
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -726,7 +695,7 @@ export default function AdminPage() {
         {/* ── İLETİŞİM ── */}
         {tab === 'iletisim' && (
           <div>
-            <div style={{ fontFamily: 'Georgia,serif', fontSize: 26, fontWeight: 300, color: NAVY, marginBottom: 4 }}>İletişim Bilgileri</div>
+            <div className="adm-section-title" style={{ marginBottom: 4 }}>İletişim Bilgileri</div>
             <div style={{ fontSize: 12, color: '#64748b', marginBottom: 20 }}>Sitedeki tüm iletişim bilgilerini buradan güncelleyin</div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
               <Card title="İLETİŞİM KANALLARI">
@@ -748,7 +717,7 @@ export default function AdminPage() {
         {/* ── AYARLAR ── */}
         {tab === 'ayarlar' && (
           <div>
-            <div style={{ fontFamily: 'Georgia,serif', fontSize: 26, fontWeight: 300, color: NAVY, marginBottom: 4 }}>Sistem Ayarları</div>
+            <div className="adm-section-title" style={{ marginBottom: 4 }}>Sistem Ayarları</div>
             <div style={{ fontSize: 12, color: '#64748b', marginBottom: 20 }}>Genel site ayarları</div>
             <Card title="MAĞAZA BİLGİLERİ">
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -765,7 +734,7 @@ export default function AdminPage() {
         {/* ── KULLANICILAR ── */}
         {tab === 'kullanicilar' && (
           <div>
-            <div style={{ fontFamily: 'Georgia,serif', fontSize: 26, fontWeight: 300, color: NAVY, marginBottom: 4 }}>Kullanıcılar</div>
+            <div className="adm-section-title" style={{ marginBottom: 4 }}>Kullanıcılar</div>
             <div style={{ fontSize: 12, color: '#64748b', marginBottom: 20 }}>Admin paneline erişim yetkisi olan hesaplar</div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <Card title="YENİ KULLANICI OLUŞTUR">
@@ -802,7 +771,7 @@ export default function AdminPage() {
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
               <div>
-                <div style={{ fontFamily: 'Georgia,serif', fontSize: 26, fontWeight: 300, color: NAVY, marginBottom: 2 }}>Aktivite Günlüğü</div>
+                <div className="adm-section-title" style={{ marginBottom: 2 }}>Aktivite Günlüğü</div>
                 <div style={{ fontSize: 12, color: '#64748b' }}>Son 150 işlem · {logs.length} kayıt</div>
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
@@ -875,5 +844,6 @@ export default function AdminPage() {
 
       </div>
     </div>
+    </>
   )
 }
