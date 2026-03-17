@@ -53,13 +53,13 @@ const CSS = `
   .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
   input:focus,select:focus,textarea:focus{border-bottom-color:#c9a84c!important;outline:none}
+  .desk-tbl{display:block}
+  .mob-cards{display:none}
   @media(max-width:768px){
     .sb{transform:translateX(-100%)}
     .hm{display:none!important}
-    .tt{min-width:0;width:100%}
-    .tw{overflow-x:hidden}
-    .mn{overflow-x:hidden}
-    .ct{overflow-x:hidden}
+    .desk-tbl{display:none}
+    .mob-cards{display:block}
     .mn{margin-left:0}
     .tb{display:flex;align-items:center;justify-content:space-between;background:#071120;padding:12px 16px;position:sticky;top:0;z-index:90}
     .ct{padding:14px}
@@ -582,7 +582,8 @@ export default function AdminPage() {
                   <input value={searchQ} onChange={e => setSearchQ(e.target.value)} placeholder="Ara..." style={{ ...INP, marginBottom: 0, width: 140, fontSize: 12 }} />
                 </div>
                 <div style={{ background: 'white', border: '1px solid #f1f5f9', boxShadow: '0 1px 6px rgba(0,0,0,.04)' }}>
-                  <div className="tw">
+                  {/* Masaüstü tablo */}
+                  <div className="desk-tbl">
                     <table className="tt">
                       <thead>
                         <tr style={{ background: NAVY }}>
@@ -602,9 +603,9 @@ export default function AdminPage() {
                               <div style={{ fontSize: 12, fontWeight: 600, color: NAVY }}>{p.name}</div>
                               {p.badge && <span style={{ fontSize: 7, background: '#fef3c7', color: '#92400e', padding: '2px 5px' }}>{p.badge}</span>}
                             </td>
-                            <td style={{ ...TD, color: '#64748b', textTransform: 'capitalize' }} className="hm">{p.category}</td>
+                            <td style={{ ...TD, color: '#64748b', textTransform: 'capitalize' }}>{p.category}</td>
                             <td style={{ ...TD, color: GOLD, fontWeight: 700, fontSize: 12 }}>{p.karat}K</td>
-                            <td style={{ ...TD, color: '#64748b' }} className="hm">{p.weight}gr</td>
+                            <td style={{ ...TD, color: '#64748b' }}>{p.weight}gr</td>
                             <td style={TD}><button onClick={() => toggleActive(p)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}><Bdg active={p.is_active} /></button></td>
                             <td style={TD}>
                               <div style={{ display: 'flex', gap: 4 }}>
@@ -617,6 +618,29 @@ export default function AdminPage() {
                         {!filtered.length && <tr><td colSpan={7} style={{ padding: 40, textAlign: 'center', color: '#94a3b8' }}>Ürün bulunamadı.</td></tr>}
                       </tbody>
                     </table>
+                  </div>
+                  {/* Mobil kart listesi */}
+                  <div className="mob-cards">
+                    {filtered.map(p => (
+                      <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', borderBottom: '1px solid #f8fafc' }}>
+                        {p.image_url
+                          ? <img src={p.image_url} alt={p.name} style={{ width: 48, height: 48, objectFit: 'cover', border: '1px solid #f1f5f9', flexShrink: 0 }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                          : <div style={{ width: 48, height: 48, background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#cbd5e1', fontSize: 18, flexShrink: 0 }}>◇</div>
+                        }
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 13, fontWeight: 600, color: NAVY, marginBottom: 2 }}>{p.name}</div>
+                          <div style={{ fontSize: 10, color: '#64748b' }}>{p.karat}K · {p.weight}gr · {p.category}</div>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6, flexShrink: 0 }}>
+                          <button onClick={() => toggleActive(p)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}><Bdg active={p.is_active} /></button>
+                          <div style={{ display: 'flex', gap: 6 }}>
+                            <button onClick={() => { setEditP(p); setTab('products') }} style={{ background: '#eff6ff', border: 'none', color: '#2563eb', padding: '6px 12px', fontSize: 9, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 2 }}>✏</button>
+                            <button onClick={() => delProduct(p)} style={{ background: '#fef2f2', border: 'none', color: '#dc2626', padding: '6px 12px', fontSize: 9, cursor: 'pointer', fontFamily: 'inherit', borderRadius: 2 }}>🗑</button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    {!filtered.length && <div style={{ padding: 40, textAlign: 'center', color: '#94a3b8' }}>Ürün bulunamadı.</div>}
                   </div>
                 </div>
               </div>
