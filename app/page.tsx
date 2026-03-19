@@ -101,8 +101,8 @@ export default function Home() {
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap');
 
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box }
-    html { scroll-behavior:smooth }
-    body { font-family:'Jost',sans-serif; font-weight:300; background:#faf9f7; color:#071120; overflow-x:hidden }
+    html { scroll-behavior:smooth; overflow-x:hidden; max-width:100% }
+    body { font-family:'Jost',sans-serif; font-weight:300; background:#faf9f7; color:#071120; overflow-x:hidden; max-width:100%; position:relative }
     ::-webkit-scrollbar { width:1px } ::-webkit-scrollbar-thumb { background:#c9a84c }
     ::selection { background:rgba(201,168,76,.15) }
 
@@ -164,7 +164,7 @@ export default function Home() {
     .hero {
       position:relative; height:100vh; min-height:600px;
       display:flex; align-items:flex-end; padding:0 6% 10vh;
-      overflow:hidden
+      overflow:hidden; width:100%
     }
     .hero-img {
       position:absolute; inset:0;
@@ -196,6 +196,7 @@ export default function Home() {
       border-top:2px solid #c9a84c;
       padding:20px 24px;
       min-width:230px;
+      max-width:calc(100vw - 10%);
       z-index:2;
       box-shadow:0 8px 40px rgba(0,0,0,.5)
     }
@@ -267,9 +268,9 @@ export default function Home() {
     .f-btn { padding:12px 22px; border:none; background:transparent; font-size:8px; letter-spacing:3px; text-transform:uppercase; color:rgba(26,26,26,.35); cursor:pointer; font-family:'Jost',sans-serif; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all .25s; font-weight:400 }
     .f-btn:hover { color:#071120 }
     .f-btn.on { color:#071120; border-bottom-color:#c9a84c }
-    .prod-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; margin:0 -6% }
+    .prod-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; margin:0 -4% }
     .prod-wrap::-webkit-scrollbar { display:none }
-    .prod-grid { display:flex; gap:2px; width:max-content; padding:0 6% }
+    .prod-grid { display:flex; gap:2px; width:max-content; padding:0 4% }
     .prod-nav { display:flex; justify-content:flex-end; gap:8px; margin-bottom:16px }
     .prod-nav-btn { width:40px; height:40px; border:1px solid rgba(26,26,26,.15); background:white; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; color:#071120; transition:all .2s; font-family:inherit }
     .prod-nav-btn:hover { background:#071120; color:white; border-color:#071120 }
@@ -382,7 +383,7 @@ export default function Home() {
       .hero-btns { flex-direction:column; gap:10px; align-items:flex-start }
 
       .rate-card {
-        position:static; width:100%; transform:none;
+        position:static; width:100%; transform:none; max-width:100%;
         border:none; border-top:1px solid rgba(201,168,76,.1);
         background:rgba(0,18,51,.97); padding:10px 5%;
         display:flex; flex-wrap:wrap; align-items:center; gap:8px 16px
@@ -418,6 +419,9 @@ export default function Home() {
       .modal { max-width:100%; margin:0; border-radius:0 }
       .modal-specs { grid-template-columns:1fr 1fr }
       .mpb-inner { grid-template-columns:1fr }
+
+      .prod-wrap { margin:0 -5% }
+      .prod-grid { padding:0 5% }
     }
 
     @media(max-width:480px){
@@ -451,6 +455,12 @@ export default function Home() {
       .modal-specs { grid-template-columns:1fr }
       .modal-head { padding:20px }
       .modal-body { padding:0 20px 20px }
+
+      .prod-wrap { margin:0 -4% }
+      .prod-grid { padding:0 4% }
+
+      .c-cta-h { font-size:22px }
+      .ticker { gap:32px }
     }
   `
 
